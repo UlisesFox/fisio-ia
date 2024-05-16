@@ -9,7 +9,7 @@ mp_drawing = mp.solutions.drawing_utils
 # Configura la captura de vídeo
 cap = cv2.VideoCapture(0)
 
-# Inicializa el modelo
+# Inicializa el modelo de seguimiento de manos
 with mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5) as hands:
     while cap.isOpened():
         # Lee un frame de la cámara
@@ -30,10 +30,12 @@ with mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5) a
                 # Dibuja los puntos de la mano
                 mp_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
                 
-                # Calcula la puntos de la mano
+                # Calcula la inclinación de la mano
                 wrist = hand_landmarks.landmark[mp_hands.HandLandmark.WRIST]
                 index_finger = hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP]
                 angle = math.degrees(math.atan2(index_finger.y - wrist.y, index_finger.x - wrist.x))
+                
+                cv2.putText(image, f'Angle: {int(angle)}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
         # Muestra el resultado
         cv2.imshow('MediaPipe Hands', image)
