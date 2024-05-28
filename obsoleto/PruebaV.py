@@ -28,7 +28,7 @@ with mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5) a
         if results.multi_hand_landmarks:
             for hand_landmarks in results.multi_hand_landmarks:
                 # Dibuja los puntos de la mano
-                mp_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+                mp_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS, landmark_drawing_spec=mp_drawing.DrawingSpec(color=(0, 0, 255), thickness=2, circle_radius=4), connection_drawing_spec=mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=2))
                 
                 # Calcula la inclinación de la mano
                 wrist = hand_landmarks.landmark[mp_hands.HandLandmark.WRIST]
