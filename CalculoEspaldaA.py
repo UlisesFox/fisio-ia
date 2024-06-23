@@ -24,7 +24,12 @@ class AutoDocPostura:
         # Convierte a grados
         angle_degrees = math.degrees(angle_radians)
         
-        return angle_degrees
+        if angle_degrees >= 80:
+            angle_degrees_filter=angle_degrees-80
+        elif angle_degrees <= 79:
+            angle_degrees_filter=angle_degrees+281
+
+        return round(angle_degrees_filter)
 
     def procesar_imagen(self, image_buffer):
         # Decodifica la imagen desde el buffer
@@ -43,7 +48,8 @@ class AutoDocPostura:
             h, w, _ = image.shape
 
             puntos = {
-                "nariz": (int(landmarks[self.mp_pose.PoseLandmark.NOSE].x * w), int(landmarks[self.mp_pose.PoseLandmark.NOSE].y * h)),
+                "oreja_izquierdo": (int(landmarks[self.mp_pose.PoseLandmark.LEFT_EAR].x * w), int(landmarks[self.mp_pose.PoseLandmark.LEFT_EAR].y * h)),
+                "oreja_derecho": (int(landmarks[self.mp_pose.PoseLandmark.RIGHT_EAR].x * w), int(landmarks[self.mp_pose.PoseLandmark.RIGHT_EAR].y * h)),
                 "hombro_izquierdo": (int(landmarks[self.mp_pose.PoseLandmark.LEFT_SHOULDER].x * w), int(landmarks[self.mp_pose.PoseLandmark.LEFT_SHOULDER].y * h)),
                 "hombro_derecho": (int(landmarks[self.mp_pose.PoseLandmark.RIGHT_SHOULDER].x * w), int(landmarks[self.mp_pose.PoseLandmark.RIGHT_SHOULDER].y * h)),
                 "cadera_izquierda": (int(landmarks[self.mp_pose.PoseLandmark.LEFT_HIP].x * w), int(landmarks[self.mp_pose.PoseLandmark.LEFT_HIP].y * h)),
@@ -51,7 +57,7 @@ class AutoDocPostura:
             }
 
             # Coordenadas de los puntos relevantes para el ángulo
-            A = puntos["nariz"]
+            A = ((puntos["oreja_izquierdo"][0] + puntos["oreja_derecho"][0]) // 2, (puntos["oreja_izquierdo"][1] + puntos["oreja_derecho"][1]) // 2)
             B = ((puntos["hombro_izquierdo"][0] + puntos["hombro_derecho"][0]) // 2, (puntos["hombro_izquierdo"][1] + puntos["hombro_derecho"][1]) // 2)
             C = ((puntos["cadera_izquierda"][0] + puntos["cadera_derecha"][0]) // 2, (puntos["cadera_izquierda"][1] + puntos["cadera_derecha"][1]) // 2)
 
