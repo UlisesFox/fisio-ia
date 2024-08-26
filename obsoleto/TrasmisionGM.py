@@ -34,7 +34,7 @@ with mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5) a
                 wrist = hand_landmarks.landmark[mp_hands.HandLandmark.WRIST]
                 index_finger = hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP]
                 angle = math.degrees(math.atan2(index_finger.y - wrist.y, index_finger.x - wrist.x))
-                
+                angle = (angle + 360) % 360
                 cv2.putText(image, f'Angle: {int(angle)}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
         # Muestra el resultado

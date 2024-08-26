@@ -30,16 +30,17 @@ class AngleSumPredictor:
         modelo = tf.keras.Sequential([capa])
         return modelo
 
-    def predecir(self, angulo):
-        resultado = self.modelo.predict(np.array([angulo]))
-        ajustador = round(resultado[0][0])
-        if ajustador <= 439:
-            mensaje = "Deberias consultar con un fisioterapeuta"
-        elif ajustador >= 461:
-            mensaje = "Deberias consultar con un fisioterapeuta"
-        else:
-            mensaje = "Rango aceptable"
-        return mensaje
+    def predecir(self, angulos):
+        resultados = []
+        for angulo in angulos:
+            resultado = self.modelo.predict(np.array([angulo]))
+            ajustador = round(resultado[0][0])
+            if ajustador <= 439 or ajustador >= 461:
+                mensaje = "Deberias consultar con un fisioterapeuta"
+            else:
+                mensaje = "Rango aceptable"
+            resultados.append(mensaje)
+        return resultados
 
 # Inicializar el predictor
 predictor = AngleSumPredictor('angulos.xlsx', 'angulossuma.xlsx')
@@ -50,11 +51,11 @@ app = Flask(__name__)
 @app.route('/predecir', methods=['POST'])
 def predecir():
     data = request.json
-    angulo = data.get('angulo', None)
-    if angulo is None:
-        return jsonify({'error': 'No se proporcionó el ángulo'}), 400
-    resultado = predictor.predecir(angulo)
-    return jsonify({'resultado': resultado})
+    angulos = data.get('angulos', None)
+    if angulos is None or not isinstance(angulos, list) or len(angulos) != 2:
+        return jsonify({'error': 'Se deben proporcionar exactamente dos ángulos'}), 400
+    resultado = predictor.predecir(angulos)
+    return jsonify({'resultados': resultado})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=6000)
+    app.run(host='0.0.0.0', port=4000)
