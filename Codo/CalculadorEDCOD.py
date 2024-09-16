@@ -56,6 +56,7 @@ def procesar_videoEDCOD(video_front_path):
         resultado = {}
         if angles:
             max_angle = max(angles)
-            resultado['Angulo'] = max_angle
+            ajustador = round(max_angle)
+            resultado['Angulo'] = ajustador
 
         return resultado

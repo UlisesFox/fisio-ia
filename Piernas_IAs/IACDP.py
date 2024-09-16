@@ -49,7 +49,7 @@ class IACDP:
         return resultados
 
 # Inicializar el predictor
-predictor = IACDP('AngulosBase.xlsx', 'Piernas_CDP.xlsx')
+predictor = IACDP('DataBase.xlsx', 'DataBase.xlsx')
 
 # Crear la aplicación Flask
 app = Flask(__name__)
@@ -64,4 +64,4 @@ def predecirCDP():
     return jsonify({'resultado': resultado})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=4000)
+    app.run(host='0.0.0.0', port=1100)

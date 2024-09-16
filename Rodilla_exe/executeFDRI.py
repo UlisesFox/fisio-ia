@@ -1,7 +1,7 @@
 import requests
 
-url = 'http://192.168.100.125:2000/procesarFDRI'
-url2 = 'http://192.168.100.125:6000/predecir'
+url = 'http://192.168.100.125:1000/procesarFDRI'
+url2 = 'http://192.168.100.125:3000/predecirFDR'
 video_front_path = 'C:/Users/Dark6/Downloads/pendiente por entregar/Flexión de rodilla.mp4'
 
 data = {

@@ -39,16 +39,15 @@ class ADC:
     def predecir(self, valor):
         resultado = self.modelo.predict(np.array([valor]))
         ajustador = round(resultado[0][0])
-        if ajustador <= 1758 or ajustador >= 1802:
+        if ajustador <= 1734 or ajustador >= 1860:
             mensaje = "Deberías consultar con un fisioterapeuta"
         else:
             mensaje = "Rango aceptable"
-        print(ajustador)
         return mensaje
 
 
 # Inicializar el predictor
-predictor = ADC('AngulosBase.xlsx', 'Cadera_ADC.xlsx')
+predictor = ADC('DataBase.xlsx', 'DataBase.xlsx')
 
 # Crear la aplicación Flask
 app = Flask(__name__)
@@ -64,4 +63,4 @@ def predecirADC():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=6000)
+    app.run(host='0.0.0.0', port=4000)

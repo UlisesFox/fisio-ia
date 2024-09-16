@@ -47,7 +47,7 @@ class FRD:
 
 
 # Inicializar el predictor
-predictor = FRD('AngulosBase.xlsx', 'Rodilla_FRD.xlsx')
+predictor = FRD('DataBase.xlsx', 'DataBase.xlsx')
 
 # Crear la aplicación Flask
 app = Flask(__name__)
@@ -63,4 +63,4 @@ def predecirFRD():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=6000)
+    app.run(host='0.0.0.0', port=3000)

@@ -57,6 +57,7 @@ def procesar_videoEDRD(video_front_path):
         resultado = {}
         if frontal_angles_right:
             max_frontal_angle_right = max(frontal_angles_right)
-            resultado['Angulo'] = int(max_frontal_angle_right)
+            ajustador = round(max_frontal_angle_right)
+            resultado['Angulo'] = int(ajustador)
 
         return resultado

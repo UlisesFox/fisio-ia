@@ -48,6 +48,8 @@ def procesar_videoADCDI(video_front_path):
         resultado = {}
         if horizontal_distances_left:
             max_horizontal_distance_left = max(horizontal_distances_left)
-            resultado['Distancia'] = max_horizontal_distance_left
+            redondeador = max_horizontal_distance_left/0.01
+            ajustador = round(redondeador)
+            resultado['Distancia'] = ajustador
 
         return resultado

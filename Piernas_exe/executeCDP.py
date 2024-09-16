@@ -1,6 +1,6 @@
 import requests
 
-url = 'http://192.168.100.125:2000/procesarCDP'
+url = 'http://192.168.100.125:1000/procesarCDP'
 file_path = "C:/Users/Dark6/Downloads/pendiente por entregar/pie.jpeg"
 
 with open(file_path, 'rb') as file:
@@ -12,8 +12,8 @@ if response.status_code == 200:
     if Angulos is not None:
         print(f"{{'Angulos': {Angulos}}}")
 
-url2 = 'http://192.168.100.125:4000/predecirCDP'
+url = 'http://192.168.100.125:1100/predecirCDP'
 data = {'Angulos': Angulos}
-response = requests.post(url2, json=data)
+response = requests.post(url, json=data)
 resultado = response.json().get('resultado')
 print(resultado)

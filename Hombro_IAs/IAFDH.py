@@ -7,11 +7,11 @@ from flask import Flask, request, jsonify
 class FDH:
     def __init__(self, angle_file, anglesum_file, epochs=600):
         # Leer los datos desde archivos Excel
-        angle = pd.read_excel(angle_file, usecols=['Angulo'])
+        angle = pd.read_excel(angle_file, usecols=['Distancia'])
         anglesum = pd.read_excel(anglesum_file, usecols=['FDH_res'])
 
         # Convertir los datos a arrays de numpy
-        self.ids = angle['Angulo'].to_numpy(dtype=float)
+        self.ids = angle['Distancia'].to_numpy(dtype=float)
         self.suma_ids = anglesum['FDH_res'].to_numpy(dtype=float)
 
         # Definir y entrenar el modelo
@@ -39,7 +39,7 @@ class FDH:
     def predecir(self, valor):
         resultado = self.modelo.predict(np.array([valor]))
         ajustador = round(resultado[0][0])
-        if ajustador <= 1758 or ajustador >= 1802:
+        if ajustador <= 2300 or ajustador >= 2740:
             mensaje = "Deberías consultar con un fisioterapeuta"
         else:
             mensaje = "Rango aceptable"
@@ -48,7 +48,7 @@ class FDH:
 
 
 # Inicializar el predictor
-predictor = FDH('AngulosBase.xlsx', 'Hombro_FDH.xlsx')
+predictor = FDH('DataBase.xlsx', 'DataBase.xlsx')
 
 # Crear la aplicación Flask
 app = Flask(__name__)
@@ -64,4 +64,4 @@ def predecirFDH():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=6000)
+    app.run(host='0.0.0.0', port=6100)

@@ -1,7 +1,7 @@
 import requests
 
-url = 'http://192.168.100.125:2000/procesarADHAD'
-url2 = 'http://192.168.100.125:6000/predecir'
+url = 'http://192.168.100.125:1000/procesarADHAD'
+url2 = 'http://192.168.100.125:8000/predecirADHA'
 video_front_path = 'C:/Users/Dark6/Downloads/pendiente por entregar/Aducción de hombro ángulo.mp4'
 
 data = {
@@ -14,8 +14,6 @@ if response.status_code == 200:
     print(response.json())
     datos = response.json()
     
-    print(f"Error al procesar: {response.status_code}")
-    print(response.json())
     # Extraer los valores específicos y convertirlos a enteros
     Angulo = int(datos['Angulo'])
 

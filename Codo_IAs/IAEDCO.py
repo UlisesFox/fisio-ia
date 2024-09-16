@@ -39,16 +39,15 @@ class EDCO:
     def predecir(self, valor):
         resultado = self.modelo.predict(np.array([valor]))
         ajustador = round(resultado[0][0])
-        if ajustador <= 1758 or ajustador >= 1802:
+        if ajustador <= 1556 or ajustador >= 1604:
             mensaje = "Deberías consultar con un fisioterapeuta"
         else:
             mensaje = "Rango aceptable"
-        print(ajustador)
         return mensaje
 
 
 # Inicializar el predictor
-predictor = EDCO('AngulosBase.xlsx', 'Codo_EDCO.xlsx')
+predictor = EDCO('DataBase.xlsx', 'DataBase.xlsx')
 
 # Crear la aplicación Flask
 app = Flask(__name__)

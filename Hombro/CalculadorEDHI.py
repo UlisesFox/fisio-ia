@@ -46,6 +46,8 @@ def procesar_videoEDHI(video_front_path):
         resultado = {}
         if horizontal_distances:
             max_horizontal_distance = max(horizontal_distances)
-            resultado['Distancia'] = max_horizontal_distance
+            redondeador = max_horizontal_distance/0.01
+            ajustador = round(redondeador)
+            resultado['Distancia'] = ajustador
 
         return resultado

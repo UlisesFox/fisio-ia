@@ -46,6 +46,8 @@ def procesar_videoADHDI(video_front_path):
         resultado = {}
         if vertical_distances:
             max_vertical_distance = min(vertical_distances)
-            resultado['Distancia'] = max_vertical_distance
+            redondeador = max_vertical_distance/0.01
+            ajustador = round(redondeador)
+            resultado['Distancia'] = ajustador
 
         return resultado

@@ -57,6 +57,7 @@ def procesar_videoFDRI(video_front_path):
         resultado = {}
         if frontal_angles_left:
             max_frontal_angle_left = min(frontal_angles_left)
-            resultado['Angulo'] = int(max_frontal_angle_left)
+            ajustador = round(max_frontal_angle_left)
+            resultado['Angulo'] = int(ajustador)
 
         return resultado

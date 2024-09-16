@@ -46,7 +46,7 @@ class IACDE:
         return mensaje
 
 # Inicializar el predictor
-predictor = IACDE('AngulosBase.xlsx', 'Espalda_CDE.xlsx')
+predictor = IACDE('DataBase.xlsx', 'DataBase.xlsx')
 
 # Crear la aplicación Flask
 app = Flask(__name__)
@@ -61,4 +61,4 @@ def predecirCDE():
     return jsonify({'resultado': resultado})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000)
+    app.run(host='0.0.0.0', port=9000)

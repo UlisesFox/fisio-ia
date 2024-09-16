@@ -39,7 +39,7 @@ class FDCO:
     def predecir(self, valor):
         resultado = self.modelo.predict(np.array([valor]))
         ajustador = round(resultado[0][0])
-        if ajustador <= 1758 or ajustador >= 1802:
+        if ajustador <= 1980 or ajustador >= 2088:
             mensaje = "Deberías consultar con un fisioterapeuta"
         else:
             mensaje = "Rango aceptable"
@@ -48,7 +48,7 @@ class FDCO:
 
 
 # Inicializar el predictor
-predictor = FDCO('AngulosBase.xlsx', 'Codo_FDCO.xlsx')
+predictor = FDCO('DataBase.xlsx', 'DataBase.xlsx')
 
 # Crear la aplicación Flask
 app = Flask(__name__)
@@ -64,4 +64,4 @@ def predecirFDCO():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=6000)
+    app.run(host='0.0.0.0', port=7000)
