@@ -211,4 +211,4 @@ def procesar_flexion_hombro_izquierda():
     return jsonify(resultado), status_code
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=1000)
+    app.run()
