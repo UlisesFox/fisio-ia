@@ -45,5 +45,12 @@ def recomendacion_aduccion_cadera_distancia():
     resultado = modelo_espalda.predecir(float(distancia))
     return jsonify({'resultado': resultado})
 
+@app.route('/vivo', methods=['POST'])
+def vivo():
+    
+    respuesta = "si los estoy escuchando"
+    
+    return jsonify(respuesta)
+
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=5013)

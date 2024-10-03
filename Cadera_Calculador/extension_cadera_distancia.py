@@ -1,47 +1,41 @@
+import av
 import cv2
+import numpy as np
 import mediapipe as mp
+from io import BytesIO
 
-
-# Inicializa el modelo de pose de MediaPipe
 mp_pose = mp.solutions.pose
 
-def procesar_video_extension_cadera_distancia(video_path):
-    #Procesa el video para calcular la distancia vertical entre los tobillos.
-    cap = cv2.VideoCapture(video_path)
+def calcular_distancia(ankle_der, ankle_izq):
+    distance = abs(ankle_der.y - ankle_izq.y)
+    return distance
 
-    if not cap.isOpened():
-        return {"error": "Error al abrir el video"}
+def procesar_video_extension_cadera_distancia(video_data):
+    video_bytes = BytesIO(video_data)
+    container = av.open(video_bytes)
 
-    distancias_verticales = []
+    distances = []
 
-    # Inicia el modelo de detección de pose
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
-        try:
-            while cap.isOpened():
-                ret, frame = cap.read()
+        for frame in container.decode(video=0):
+            image = np.array(frame.to_image())
+            image_bgr = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+            image_rgb = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
 
-                if not ret:
-                    break
+            results = pose.process(image_rgb)
 
-                frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                results = pose.process(frame_rgb)
+            if results.pose_landmarks:
+                landmarks = results.pose_landmarks.landmark
+                ankle_der = landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE]
+                ankle_izq = landmarks[mp_pose.PoseLandmark.LEFT_ANKLE]
+                distance = calcular_distancia(ankle_der, ankle_izq)
+                
+                distances.append(distance)
 
-                if results.pose_landmarks:
-                    landmarks = results.pose_landmarks.landmark
+    if distances:
+        max_distance = max(distances)
+        redondeador = max_distance/0.01
+        ajustador = round(redondeador)
+        return {"Distancia": ajustador}
 
-                    tobillo_der = landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE]
-                    tobillo_izq = landmarks[mp_pose.PoseLandmark.LEFT_ANKLE]
-  
-                    distancia_vertical = abs(tobillo_der.y - tobillo_izq.y)
-                    distancias_verticales.append(distancia_vertical)
-
-        except Exception as e:
-            return {"error": str(e)}
-
-        finally:
-            cap.release()
-        if distancias_verticales:
-            max_distancia = max(distancias_verticales)
-            return {'Distancia': round(max_distancia / 0.01)}
-
-        return {"error": "No se detectaron poses en el video"}
+    return {}

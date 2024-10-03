@@ -1,38 +1,41 @@
+import av
 import cv2
+import numpy as np
 import mediapipe as mp
+from io import BytesIO
 
-def calcular_distancia_vertical(landmarks, cadera_idx, muñeca_idx):
-    cadera = landmarks[cadera_idx]
-    muñeca = landmarks[muñeca_idx]
-    return abs(muñeca.y - cadera.y)
+mp_pose = mp.solutions.pose
 
-def procesar_video_vertical(video_front_path, cadera_idx, muñeca_idx):
-    cap = cv2.VideoCapture(video_front_path)
-    if not cap.isOpened():
-        return {"error": "Error al abrir el video"}
+def calcular_distancia(hip, wrist):
+    distance = abs(wrist.y - hip.y)
+    return distance
 
-    distancias_verticales = []
-    mp_pose = mp.solutions.pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5)
+def procesar_video_flexion_hombro_distancia_derecha(video_data):
+    video_bytes = BytesIO(video_data)
+    container = av.open(video_bytes)
 
-    while cap.isOpened():
-        success, frame = cap.read()
-        if not success:
-            break
+    distances = []
 
-        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        resultados = mp_pose.process(frame_rgb)
+    with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
+        for frame in container.decode(video=0):
+            image = np.array(frame.to_image())
+            image_bgr = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+            image_rgb = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
 
-        if resultados.pose_landmarks:
-            distancia = calcular_distancia_vertical(resultados.pose_landmarks.landmark, cadera_idx, muñeca_idx)
-            distancias_verticales.append(distancia)
+            results = pose.process(image_rgb)
 
-    cap.release()
+            if results.pose_landmarks:
+                landmarks = results.pose_landmarks.landmark
+                hip = landmarks[mp_pose.PoseLandmark.RIGHT_hip]
+                wrist = landmarks[mp_pose.PoseLandmark.RIGHT_WRIST]
+                distance = calcular_distancia(hip, wrist)
 
-    if distancias_verticales:
-        max_distancia = round(max(distancias_verticales) / 0.01)
-        return {'Distancia': max_distancia}
+                distances.append(distance)
+
+    if distances:
+        max_distance = max(distances)
+        redondeador = max_distance/0.01
+        ajustador = round(redondeador)
+        return {"Distancia": ajustador}
 
     return {}
-
-def procesar_video_flexion_hombro_distancia_derecha(video_front_path):
-    return procesar_video_vertical(video_front_path, mp.solutions.pose.PoseLandmark.RIGHT_HIP, mp.solutions.pose.PoseLandmark.RIGHT_WRIST)

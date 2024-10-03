@@ -1,6 +1,9 @@
+import av
 import cv2
 import math
+import numpy as np
 import mediapipe as mp
+from io import BytesIO
 
 mp_pose = mp.solutions.pose
 
@@ -12,36 +15,31 @@ def calcular_angulo(hip, knee, ankle):
     magnitude2 = math.sqrt(vector2[0]**2 + vector2[1]**2)
     return math.degrees(math.acos(dot_product / (magnitude1 * magnitude2)))
 
-def procesar_video_flexion_rodilla_angulo_izquierda(video_front_path):
-    cap_front = cv2.VideoCapture(video_front_path)
-    
-    if not cap_front.isOpened():
-        return {"error": "Error al abrir el video"}
+def procesar_video_flexion_rodilla_angulo_izquierda(video_data):
+    video_bytes = BytesIO(video_data)
+    container = av.open(video_bytes)
 
-    frontal_angles_left = []
+    angles = []
     
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
-        while cap_front.isOpened():
-            success_front, image_front = cap_front.read()
-            if not success_front:
-                break
-            
-            image_front_rgb = cv2.cvtColor(image_front, cv2.COLOR_BGR2RGB)
-            results_front = pose.process(image_front_rgb)
+        for frame in container.decode(video=0):
+            image = np.array(frame.to_image())
+            image_bgr = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+            image_rgb = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
 
-            if results_front.pose_landmarks:
-                landmarks = results_front.pose_landmarks.landmark
-                left_hip = landmarks[mp_pose.PoseLandmark.LEFT_HIP]
-                left_knee = landmarks[mp_pose.PoseLandmark.LEFT_KNEE]
-                left_ankle = landmarks[mp_pose.PoseLandmark.LEFT_ANKLE]
-                angle_left = calcular_angulo(left_hip, left_knee, left_ankle)
+            results = pose.process(image_rgb)
 
-                if 0 <= angle_left <= 180:
-                    frontal_angles_left.append(angle_left)
+            if results.pose_landmarks:
+                landmarks = results.pose_landmarks.landmark
+                hip = landmarks[mp_pose.PoseLandmark.LEFT_HIP]
+                knee = landmarks[mp_pose.PoseLandmark.LEFT_KNEE]
+                ankle = landmarks[mp_pose.PoseLandmark.LEFT_ANKLE]
+                angle = calcular_angulo(hip, knee, ankle)
 
-    cap_front.release()
+                if 0 <= angle <= 180:
+                    angles.append(angle)
 
-    if frontal_angles_left:
-        return {"Angulo": round(min(frontal_angles_left))}
+    if angles:
+        return {"Angulo": round(min(angles))}
 
     return {}

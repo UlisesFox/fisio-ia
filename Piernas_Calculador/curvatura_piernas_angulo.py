@@ -9,7 +9,6 @@ class CurvaturaPiernas:
         self.pose = self.mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5)
 
     def calcular_angulo(self, punto_a, punto_b, punto_c):
-        #Calcula el ángulo entre tres puntos en un plano.
         vector_ba = (punto_a[0] - punto_b[0], punto_a[1] - punto_b[1])
         vector_bc = (punto_c[0] - punto_b[0], punto_c[1] - punto_b[1])
         
@@ -23,7 +22,6 @@ class CurvaturaPiernas:
         return round(angulo_grados - 80 if angulo_grados >= 80 else angulo_grados + 281)
 
     def procesar_imagen(self, image_buffer):
-        #Procesa una imagen para calcular la curvatura de las piernas.
         image = cv2.imdecode(np.frombuffer(image_buffer, np.uint8), cv2.IMREAD_COLOR)
         image = cv2.resize(image, (image.shape[1] // 2, image.shape[0] // 2), interpolation=cv2.INTER_AREA)
         image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)

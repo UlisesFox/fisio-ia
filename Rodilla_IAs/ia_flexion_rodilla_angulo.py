@@ -45,5 +45,12 @@ def recomendacion_flexion_rodilla():
     resultado = modelo_espalda.predecir(float(angulo))
     return jsonify({'resultado': resultado})
 
+@app.route('/vivo', methods=['POST'])
+def vivo():
+    
+    respuesta = "si los estoy escuchando"
+    
+    return jsonify(respuesta)
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5002)
+    app.run(host='0.0.0.0', port=5001)
