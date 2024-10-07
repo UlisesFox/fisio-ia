@@ -36,8 +36,8 @@ class IAFlexionRodilla:
 app = Flask(__name__)
 modelo_espalda = IAFlexionRodilla('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/recomendacion_flexion_rodilla', methods=['POST'])
-def recomendacion_flexion_rodilla():
+@app.route('/FlexionRodilla', methods=['POST'])
+def FlexionRodilla():
     data = request.json
     angulo = data.get('Angulo')
     if angulo is None:

@@ -36,8 +36,8 @@ class IACurvaturaEspalda:
 app = Flask(__name__)
 modelo_espalda = IACurvaturaEspalda('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/recomendacion_espalda', methods=['POST'])
-def recomendacion_espalda():
+@app.route('/CurvaturaEspalda', methods=['POST'])
+def CurvaturaEspalda():
     data = request.json
     angulo = data.get('Angulo')
     if angulo is None:

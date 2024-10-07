@@ -36,8 +36,8 @@ class IAExtensionCodo:
 app = Flask(__name__)
 modelo_espalda = IAExtensionCodo('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/recomendacion_extension_codo', methods=['POST'])
-def recomendacion_extension_codo():
+@app.route('/ExtensionCodo', methods=['POST'])
+def ExtensionCodo():
     data = request.json
     angulo = data.get('Angulo')
     if angulo is None:

@@ -36,8 +36,8 @@ class IAAduccionHombroDistancia:
 app = Flask(__name__)
 modelo_espalda = IAAduccionHombroDistancia('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/recomendacion_aduccion_hombro_distancia', methods=['POST'])
-def recomendacion_aduccion_hombro_distancia():
+@app.route('/AduccionHombro', methods=['POST'])
+def AduccionHombro():
     data = request.json
     distancia = data.get('Distancia')
     if distancia is None:

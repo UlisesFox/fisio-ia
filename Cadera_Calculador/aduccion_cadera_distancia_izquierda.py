@@ -27,7 +27,7 @@ def procesar_video_aduccion_cadera_distancia_izquierda(video_data):
             if results.pose_landmarks:
                 landmarks = results.pose_landmarks.landmark
                 hip = landmarks[mp_pose.PoseLandmark.LEFT_HIP]
-                ankle = landmarks[mp_pose.PoseLandmark.LEFT_ANKÑE]
+                ankle = landmarks[mp_pose.PoseLandmark.LEFT_ANKLE]
                 distance = calcular_distancia(hip, ankle)
 
                 distances.append(distance)

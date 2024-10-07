@@ -36,8 +36,8 @@ class IAFlexionCadera:
 app = Flask(__name__)
 modelo_espalda = IAFlexionCadera('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/recomendacion_flexion_cadera', methods=['POST'])
-def recomendacion_flexion_cadera():
+@app.route('/FlexionCadera', methods=['POST'])
+def FlexionCadera():
     data = request.json
     angulo = data.get('Angulo')
     if angulo is None:

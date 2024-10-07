@@ -36,8 +36,8 @@ class IAExtensionCadera:
 app = Flask(__name__)
 modelo_espalda = IAExtensionCadera('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/recomendacion_extension_cadera', methods=['POST'])
-def recomendacion_extension_cadera():
+@app.route('/ExtensionCadera', methods=['POST'])
+def ExtensionCadera():
     data = request.json
     distancia = data.get('Distancia')
     if distancia is None:

@@ -3,7 +3,7 @@ import pandas as pd
 import tensorflow as tf
 from flask import Flask, request, jsonify
 
-class IAAduccionHombroAngulo:
+class IAAbduccionHombroAngulo:
     def __init__(self, archivo_angulos, archivo_resultados, epocas=600):
         #Inicializa el modelo leyendo los datos y entrenándolo.
         self.angulos = pd.read_excel(archivo_angulos, usecols=['Angulo']).to_numpy(dtype=float).flatten()
@@ -34,10 +34,10 @@ class IAAduccionHombroAngulo:
 
 # Configuración del servidor Flask
 app = Flask(__name__)
-modelo_espalda = IAAduccionHombroAngulo('Dataset.xlsx', 'Dataset.xlsx')
+modelo_espalda = IAAbduccionHombroAngulo('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/recomendacion_aduccion_hombro_angulo', methods=['POST'])
-def recomendacion_aduccion_hombro_angulo():
+@app.route('/AbduccionHombro', methods=['POST'])
+def AbduccionHombro():
     data = request.json
     angulo = data.get('Angulo')
     if angulo is None:

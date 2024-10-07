@@ -45,8 +45,8 @@ class IACurvaturaPiernas:
 app = Flask(__name__)
 modelo_pierna = IACurvaturaPiernas('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/recomendacion_piernas', methods=['POST'])
-def recomendacion_piernas():
+@app.route('/CurvaturaPiernas', methods=['POST'])
+def CurvaturaPiernas():
     data = request.json
     angulos = data.get('Angulo', [])
     if len(angulos) != 2:

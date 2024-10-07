@@ -26,7 +26,7 @@ def procesar_video_flexion_hombro_distancia_izquierda(video_data):
 
             if results.pose_landmarks:
                 landmarks = results.pose_landmarks.landmark
-                hip = landmarks[mp_pose.PoseLandmark.RIGHT_hip]
+                hip = landmarks[mp_pose.PoseLandmark.RIGHT_HIP]
                 wrist = landmarks[mp_pose.PoseLandmark.RIGHT_WRIST]
                 distance = calcular_distancia(hip, wrist)
 

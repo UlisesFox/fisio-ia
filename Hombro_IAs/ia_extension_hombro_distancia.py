@@ -36,8 +36,8 @@ class IAExtensionHombro:
 app = Flask(__name__)
 modelo_espalda = IAExtensionHombro('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/recomendacion_extension_hombro', methods=['POST'])
-def recomendacion_extension_hombro():
+@app.route('/ExtensionHombro', methods=['POST'])
+def ExtensionHombro():
     data = request.json
     distancia = data.get('Distancia')
     if distancia is None:

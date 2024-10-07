@@ -36,8 +36,8 @@ class IAExtensionRodilla:
 app = Flask(__name__)
 modelo_espalda = IAExtensionRodilla('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/recomendacion_extension_rodilla', methods=['POST'])
-def recomendacion_extension_rodilla():
+@app.route('/ExtensionRodilla', methods=['POST'])
+def ExtensionRodilla():
     data = request.json
     angulo = data.get('Angulo')
     if angulo is None:

@@ -36,8 +36,8 @@ class IAFlexionHombro:
 app = Flask(__name__)
 modelo_espalda = IAFlexionHombro('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/recomendacion_flexion_hombro', methods=['POST'])
-def recomendacion_flexion_hombro():
+@app.route('/FlexionHombro', methods=['POST'])
+def FlexionHombro():
     data = request.json
     distancia = data.get('Distancia')
     if distancia is None:
