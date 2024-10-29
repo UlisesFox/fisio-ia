@@ -36,6 +36,6 @@ def procesar_video_extension_hombro_distancia_derecha(video_data):
         max_distance = max(distances)
         redondeador = max_distance/0.01
         ajustador = round(redondeador)
-        return {"Distancia": ajustador}
+        return {"dato": ajustador}
 
     return {}

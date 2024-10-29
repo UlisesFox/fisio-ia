@@ -40,6 +40,6 @@ def procesar_video_flexion_rodilla_angulo_derecha(video_data):
                     angles.append(angle)
 
     if angles:
-        return {"Angulo": round(min(angles))}
+        return {"dato": round(min(angles))}
 
     return {}

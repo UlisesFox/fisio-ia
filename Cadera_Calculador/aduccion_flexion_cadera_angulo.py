@@ -43,6 +43,6 @@ def procesar_video_aduccion_flexion_cadera_angulo(video_data):
                     angles.append(angle)
 
     if angles:
-        return {"Angulo": round(max(angles))}
+        return {"dato": round(max(angles))}
 
     return {}
