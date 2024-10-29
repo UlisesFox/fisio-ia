@@ -38,7 +38,7 @@ modelo_espalda = IAAbduccionCaderaAngulo('Dataset.xlsx', 'Dataset.xlsx')
 
 @app.route('/abduccionCadera', methods=['POST'])
 def AbduccionCadera():
-    distancia = request.form.get('dato')
+    angulo = request.form.get('dato')
     if angulo is None:
         return jsonify({'error': 'No se proporcionó el ángulo'}), 400
     resultado = modelo_espalda.predecir(float(angulo))
