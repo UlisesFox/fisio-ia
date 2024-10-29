@@ -56,7 +56,7 @@ def CurvaturaEspalda():
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
 
-    return jsonify({'dato': resultado}), 200
+    return jsonify({'response': resultado}), 200
 
 @app.route('/curvaturaPiernas', methods=['POST'])
 def CurvaturaPiernas():
@@ -68,7 +68,7 @@ def CurvaturaPiernas():
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
 
-    return jsonify({'dato': resultado}), 200
+    return jsonify({'response': resultado}), 200
 
 # Procesamiento de videos
 @app.route('/extensionRodillaDerecha', methods=['POST'])

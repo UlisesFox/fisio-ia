@@ -40,6 +40,6 @@ def procesar_video_extension_rodilla_angulo_izquierda(video_data):
                     angles.append(angle)
 
     if angles:
-        return {"dato": round(max(angles))}
+        return {"response": round(max(angles))}
 
     return {}

@@ -36,6 +36,6 @@ def procesar_video_aduccion_hombro_distancia_derecha(video_data):
         min_distance = min(distances)
         redondeador = min_distance/0.01
         ajustador = round(redondeador)
-        return {"dato": ajustador}
+        return {"response": ajustador}
 
     return {}

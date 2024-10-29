@@ -40,6 +40,6 @@ def procesar_video_aduccion_hombro_angulo_derecha(video_data):
                     angles.append(angle)
 
         if angles:
-            return {"dato": round(max(angles))}
+            return {"response": round(max(angles))}
 
         return {}
