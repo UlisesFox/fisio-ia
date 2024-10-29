@@ -30,23 +30,23 @@ curvatura_piernas_calculador = curvatura_piernas()
 
 # Funciones comunes para manejo de imagenes
 def procesar_imagen(request):
-    if 'imagen' not in request.files:
+    if 'dato' not in request.files:
         return None, "No hay imagen", 400
-    imagen = request.files['imagen']
+    imagen = request.files['dato']
     if imagen.filename == '':
         return None, "No se seleccionó imagen", 400
     return imagen.read(), None, 200
 
 def procesar_video(request):
-    if 'video' not in request.files:
+    if 'dato' not in request.files:
         return None, "No hay video", 400
-    video = request.files['video']
+    video = request.files['dato']
     if video.filename == '':
         return None, "No se seleccionó video", 400
     return video.read(), None, 200
 
 # Procesamiento de imágenes
-@app.route('/CurvaturaEspalda', methods=['POST'])
+@app.route('/curvaturaEspalda', methods=['POST'])
 def CurvaturaEspalda():
     imagen, error, status_code = procesar_imagen(request)
     if error:
@@ -58,7 +58,7 @@ def CurvaturaEspalda():
 
     return jsonify({'Angulo': resultado}), 200
 
-@app.route('/CurvaturaPiernas', methods=['POST'])
+@app.route('/curvaturaPiernas', methods=['POST'])
 def CurvaturaPiernas():
     imagen, error, status_code = procesar_imagen(request)
     if error:
@@ -71,7 +71,7 @@ def CurvaturaPiernas():
     return jsonify({'Angulo': resultado}), 200
 
 # Procesamiento de videos
-@app.route('/ExtensionRodillaDerecha', methods=['POST'])
+@app.route('/extensionRodillaDerecha', methods=['POST'])
 def ExtensionRodillaDerecha():
     video, error, status_code = procesar_video(request)
     if error:
@@ -83,7 +83,7 @@ def ExtensionRodillaDerecha():
     
     return jsonify(resultado), 200
 
-@app.route('/ExtensionRodillaIzquierda', methods=['POST'])
+@app.route('/extensionRodillaIzquierda', methods=['POST'])
 def ExtensionRodillaIzquierda():
     video, error, status_code = procesar_video(request)
     if error:
@@ -95,7 +95,7 @@ def ExtensionRodillaIzquierda():
     
     return jsonify(resultado), 200
 
-@app.route('/FlexionRodillaDerecha', methods=['POST'])
+@app.route('/flexionRodillaDerecha', methods=['POST'])
 def FlexionRodillaDerecha():
     video, error, status_code = procesar_video(request)
     if error:
@@ -107,7 +107,7 @@ def FlexionRodillaDerecha():
     
     return jsonify(resultado), 200
 
-@app.route('/FlexionRodillaIzquierda', methods=['POST'])
+@app.route('/flexionRodillaIzquierda', methods=['POST'])
 def FlexionRodillaIzquierda():
     video, error, status_code = procesar_video(request)
     if error:
@@ -119,7 +119,7 @@ def FlexionRodillaIzquierda():
     
     return jsonify(resultado), 200
 
-@app.route('/AbduccionCadera', methods=['POST'])
+@app.route('/abduccionCadera', methods=['POST'])
 def AbduccionCadera():
     video, error, status_code = procesar_video(request)
     if error:
@@ -131,7 +131,7 @@ def AbduccionCadera():
     
     return jsonify(resultado), 200
 
-@app.route('/AduccionCaderaDerecha', methods=['POST'])
+@app.route('/aduccionCaderaDerecha', methods=['POST'])
 def AduccionCaderaDerecha():
     video, error, status_code = procesar_video(request)
     if error:
@@ -143,7 +143,7 @@ def AduccionCaderaDerecha():
     
     return jsonify(resultado), 200
 
-@app.route('/AduccionCaderaIzquierda', methods=['POST'])
+@app.route('/aduccionCaderaIzquierda', methods=['POST'])
 def AduccionCaderaIzquierda():
     video, error, status_code = procesar_video(request)
     if error:
@@ -155,7 +155,7 @@ def AduccionCaderaIzquierda():
     
     return jsonify(resultado), 200
 
-@app.route('/FlexionCadera', methods=['POST'])
+@app.route('/flexionCadera', methods=['POST'])
 def FlexionCadera():
     video, error, status_code = procesar_video(request)
     if error:
@@ -167,7 +167,7 @@ def FlexionCadera():
     
     return jsonify(resultado), 200
 
-@app.route('/ExtensionCadera', methods=['POST'])
+@app.route('/extensionCadera', methods=['POST'])
 def ExtensionCadera():
     video, error, status_code = procesar_video(request)
     if error:
@@ -179,7 +179,7 @@ def ExtensionCadera():
     
     return jsonify(resultado), 200
 
-@app.route('/ExtensionCodoDerecha', methods=['POST'])
+@app.route('/extensionCodoDerecha', methods=['POST'])
 def ExtensionCodoDerecha():
     video, error, status_code = procesar_video(request)
     if error:
@@ -191,7 +191,7 @@ def ExtensionCodoDerecha():
     
     return jsonify(resultado), 200
 
-@app.route('/ExtensionCodoIzquierda', methods=['POST'])
+@app.route('/extensionCodoIzquierda', methods=['POST'])
 def ExtensionCodoIzquierda():
     video, error, status_code = procesar_video(request)
     if error:
@@ -203,7 +203,7 @@ def ExtensionCodoIzquierda():
     
     return jsonify(resultado), 200
 
-@app.route('/FlexionCodoDerecha', methods=['POST'])
+@app.route('/flexionCodoDerecha', methods=['POST'])
 def FlexionCodoDerecha():
     video, error, status_code = procesar_video(request)
     if error:
@@ -215,7 +215,7 @@ def FlexionCodoDerecha():
     
     return jsonify(resultado), 200
 
-@app.route('/FlexionCodoIzquierda', methods=['POST'])
+@app.route('/flexionCodoIzquierda', methods=['POST'])
 def FlexionCodoIzquierda():
     video, error, status_code = procesar_video(request)
     if error:
@@ -227,7 +227,7 @@ def FlexionCodoIzquierda():
     
     return jsonify(resultado), 200
 
-@app.route('/AbduccionHombroDerecha', methods=['POST'])
+@app.route('/abduccionHombroDerecha', methods=['POST'])
 def AbduccionHombroDerecha():
     video, error, status_code = procesar_video(request)
     if error:
@@ -239,7 +239,7 @@ def AbduccionHombroDerecha():
     
     return jsonify(resultado), 200
 
-@app.route('/AbduccionHombroIzquierda', methods=['POST'])
+@app.route('/abduccionHombroIzquierda', methods=['POST'])
 def AbduccionHombroIzquierda():
     video, error, status_code = procesar_video(request)
     if error:
@@ -251,7 +251,7 @@ def AbduccionHombroIzquierda():
     
     return jsonify(resultado), 200
 
-@app.route('/AduccionHombroDerecha', methods=['POST'])
+@app.route('/aduccionHombroDerecha', methods=['POST'])
 def AduccionHombroDerecha():
     video, error, status_code = procesar_video(request)
     if error:
@@ -263,7 +263,7 @@ def AduccionHombroDerecha():
     
     return jsonify(resultado), 200
 
-@app.route('/AduccionHombroIzquierda', methods=['POST'])
+@app.route('/aduccionHombroIzquierda', methods=['POST'])
 def AduccionHombroIzquierda():
     video, error, status_code = procesar_video(request)
     if error:
@@ -275,7 +275,7 @@ def AduccionHombroIzquierda():
     
     return jsonify(resultado), 200
 
-@app.route('/ExtensionHombroDerecha', methods=['POST'])
+@app.route('/extensionHombroDerecha', methods=['POST'])
 def ExtensionHombroDerecha():
     video, error, status_code = procesar_video(request)
     if error:
@@ -287,7 +287,7 @@ def ExtensionHombroDerecha():
     
     return jsonify(resultado), 200
 
-@app.route('/ExtensionHombroIzquierda', methods=['POST'])
+@app.route('/extensionHombroIzquierda', methods=['POST'])
 def ExtensionHombroIzquierda():
     video, error, status_code = procesar_video(request)
     if error:
@@ -299,7 +299,7 @@ def ExtensionHombroIzquierda():
     
     return jsonify(resultado), 200
 
-@app.route('/FlexionHombroDerecha', methods=['POST'])
+@app.route('/flexionHombroDerecha', methods=['POST'])
 def FlexionHombroDerecha():
     video, error, status_code = procesar_video(request)
     if error:
@@ -311,7 +311,7 @@ def FlexionHombroDerecha():
     
     return jsonify(resultado), 200
 
-@app.route('/FlexionHombroIzquierda', methods=['POST'])
+@app.route('/flexionHombroIzquierda', methods=['POST'])
 def FlexionHombroIzquierda():
     video, error, status_code = procesar_video(request)
     if error:

@@ -29,17 +29,17 @@ class IAExtensionCadera:
         #Predice el resultado a partir de una distancia ingresados.
         prediccion = self.modelo.predict(np.array([distancia]))[0][0]
         if 1404 <= round(prediccion) <= 1464:
-            return "Rango aceptable"
+            return "No Deberías consultar con un fisioterapeuta"
         return "Deberías consultar con un fisioterapeuta"
 
 # Configuración del servidor Flask
 app = Flask(__name__)
 modelo_espalda = IAExtensionCadera('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/ExtensionCadera', methods=['POST'])
+@app.route('/extensionCadera', methods=['POST'])
 def ExtensionCadera():
     data = request.json
-    distancia = data.get('Distancia')
+    distancia = data.get('dato')
     if distancia is None:
         return jsonify({'error': 'No se proporcionó una distancia'}), 400
     resultado = modelo_espalda.predecir(float(distancia))

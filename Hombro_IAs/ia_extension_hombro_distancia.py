@@ -29,17 +29,17 @@ class IAExtensionHombro:
         #Predice el resultado a partir de una distancia ingresados.
         prediccion = self.modelo.predict(np.array([distancia]))[0][0]
         if 4159 <= round(prediccion) <= 4179:
-            return "Rango aceptable"
+            return "No Deberías consultar con un fisioterapeuta"
         return "Deberías consultar con un fisioterapeuta"
 
 # Configuración del servidor Flask
 app = Flask(__name__)
 modelo_espalda = IAExtensionHombro('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/ExtensionHombro', methods=['POST'])
+@app.route('/extensionHombro', methods=['POST'])
 def ExtensionHombro():
     data = request.json
-    distancia = data.get('Distancia')
+    distancia = data.get('dato')
     if distancia is None:
         return jsonify({'error': 'No se proporcionó una distancia'}), 400
     resultado = modelo_espalda.predecir(float(distancia))

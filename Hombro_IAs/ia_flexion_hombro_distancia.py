@@ -29,17 +29,17 @@ class IAFlexionHombro:
         #Predice el resultado a partir de una distancia ingresados.
         prediccion = self.modelo.predict(np.array([distancia]))[0][0]
         if 2320 <= round(prediccion) <= 2720:
-            return "Rango aceptable"
+            return "No Deberías consultar con un fisioterapeuta"
         return "Deberías consultar con un fisioterapeuta"
 
 # Configuración del servidor Flask
 app = Flask(__name__)
 modelo_espalda = IAFlexionHombro('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/FlexionHombro', methods=['POST'])
+@app.route('/flexionHombro', methods=['POST'])
 def FlexionHombro():
     data = request.json
-    distancia = data.get('Distancia')
+    distancia = data.get('dato')
     if distancia is None:
         return jsonify({'error': 'No se proporcionó una distancia'}), 400
     resultado = modelo_espalda.predecir(float(distancia))

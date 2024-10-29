@@ -29,17 +29,17 @@ class IAFlexionRodilla:
         #Predice el resultado a partir del ángulo ingresados.
         prediccion = self.modelo.predict(np.array([angulo]))[0][0]
         if 896 <= round(prediccion) <= 916:
-            return "Rango aceptable"
+            return "No Deberías consultar con un fisioterapeuta"
         return "Deberías consultar con un fisioterapeuta"
 
 # Configuración del servidor Flask
 app = Flask(__name__)
 modelo_espalda = IAFlexionRodilla('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/FlexionRodilla', methods=['POST'])
+@app.route('/flexionRodilla', methods=['POST'])
 def FlexionRodilla():
     data = request.json
-    angulo = data.get('Angulo')
+    angulo = data.get('dato')
     if angulo is None:
         return jsonify({'error': 'No se proporcionó el ángulo'}), 400
     resultado = modelo_espalda.predecir(float(angulo))

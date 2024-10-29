@@ -29,17 +29,17 @@ class IAFlexionCadera:
         #Predice el resultado a partir del ángulo ingresados.
         prediccion = self.modelo.predict(np.array([angulo]))[0][0]
         if 7191 <= round(prediccion) <= 7211:
-            return "Rango aceptable"
+            return "No Deberías consultar con un fisioterapeuta"
         return "Deberías consultar con un fisioterapeuta"
 
 # Configuración del servidor Flask
 app = Flask(__name__)
 modelo_espalda = IAFlexionCadera('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/FlexionCadera', methods=['POST'])
+@app.route('/flexionCadera', methods=['POST'])
 def FlexionCadera():
     data = request.json
-    angulo = data.get('Angulo')
+    angulo = data.get('dato')
     if angulo is None:
         return jsonify({'error': 'No se proporcionó el ángulo'}), 400
     resultado = modelo_espalda.predecir(float(angulo))

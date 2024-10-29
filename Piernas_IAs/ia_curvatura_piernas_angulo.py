@@ -36,7 +36,7 @@ class IACurvaturaPiernas:
             if ajustado <= 1758 or ajustado >= 1802:
                 mensaje = "Deberías consultar con un fisioterapeuta"
             else:
-                mensaje = "Rango aceptable"
+                mensaje = "No Deberías consultar con un fisioterapeuta"
             resultados.append(mensaje)
 
         return resultados
@@ -45,10 +45,10 @@ class IACurvaturaPiernas:
 app = Flask(__name__)
 modelo_pierna = IACurvaturaPiernas('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/CurvaturaPiernas', methods=['POST'])
+@app.route('/curvaturaPiernas', methods=['POST'])
 def CurvaturaPiernas():
     data = request.json
-    angulos = data.get('Angulo', [])
+    angulos = data.get('dato', [])
     if len(angulos) != 2:
         return jsonify({'error': 'No se proporcionó los ángulos'}), 400
     resultado = modelo_pierna.predecir(angulos)

@@ -29,17 +29,17 @@ class IAAbduccionCaderaAngulo:
         #Predice el resultado a partir del ángulo ingresados.
         prediccion = self.modelo.predict(np.array([angulo]))[0][0]
         if 1734 <= round(prediccion) <= 1854:
-            return "Rango aceptable"
+            return "No Deberías consultar con un fisioterapeuta"
         return "Deberías consultar con un fisioterapeuta"
 
 # Configuración del servidor Flask
 app = Flask(__name__)
 modelo_espalda = IAAbduccionCaderaAngulo('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/AbduccionCadera', methods=['POST'])
+@app.route('/abduccionCadera', methods=['POST'])
 def AbduccionCadera():
     data = request.json
-    angulo = data.get('Angulo')
+    angulo = data.get('dato')
     if angulo is None:
         return jsonify({'error': 'No se proporcionó el ángulo'}), 400
     resultado = modelo_espalda.predecir(float(angulo))

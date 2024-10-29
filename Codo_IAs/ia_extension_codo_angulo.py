@@ -29,17 +29,17 @@ class IAExtensionCodo:
         #Predice el resultado a partir del ángulo ingresados.
         prediccion = self.modelo.predict(np.array([angulo]))[0][0]
         if 1560 <= round(prediccion) <= 1600:
-            return "Rango aceptable"
+            return "No Deberías consultar con un fisioterapeuta"
         return "Deberías consultar con un fisioterapeuta"
 
 # Configuración del servidor Flask
 app = Flask(__name__)
 modelo_espalda = IAExtensionCodo('Dataset.xlsx', 'Dataset.xlsx')
 
-@app.route('/ExtensionCodo', methods=['POST'])
+@app.route('/extensionCodo', methods=['POST'])
 def ExtensionCodo():
     data = request.json
-    angulo = data.get('Angulo')
+    angulo = data.get('dato')
     if angulo is None:
         return jsonify({'error': 'No se proporcionó el ángulo'}), 400
     resultado = modelo_espalda.predecir(float(angulo))
