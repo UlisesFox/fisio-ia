@@ -38,10 +38,7 @@ modelo_espalda = IACurvaturaEspalda('Dataset.xlsx', 'Dataset.xlsx')
 
 @app.route('/curvaturaEspalda', methods=['POST'])
 def CurvaturaEspalda():
-    print(data)
-    data = request.json
-    angulo = data.get('dato')
-    print(data)
+    angulo = request.form.get('dato')
     if angulo is None:
         return jsonify({'error': 'No se proporcionó el ángulo'}), 400
     resultado = modelo_espalda.predecir(float(angulo))

@@ -47,8 +47,7 @@ modelo_pierna = IACurvaturaPiernas('Dataset.xlsx', 'Dataset.xlsx')
 
 @app.route('/curvaturaPiernas', methods=['POST'])
 def CurvaturaPiernas():
-    data = request.json
-    angulos = data.get('dato', [])
+    angulos = request.form.get('dato', [])
     if len(angulos) != 2:
         return jsonify({'error': 'No se proporcionó los ángulos'}), 400
     resultado = modelo_pierna.predecir(angulos)

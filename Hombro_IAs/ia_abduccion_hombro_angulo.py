@@ -38,8 +38,7 @@ modelo_espalda = IAAbduccionHombroAngulo('Dataset.xlsx', 'Dataset.xlsx')
 
 @app.route('/abduccionHombro', methods=['POST'])
 def AbduccionHombro():
-    data = request.json
-    angulo = data.get('dato')
+    angulo = request.form.get('dato')
     if angulo is None:
         return jsonify({'error': 'No se proporcionó el ángulo'}), 400
     resultado = modelo_espalda.predecir(float(angulo))

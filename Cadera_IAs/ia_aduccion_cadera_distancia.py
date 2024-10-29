@@ -38,8 +38,7 @@ modelo_espalda = IAAduccionCaderaDistancia('Dataset.xlsx', 'Dataset.xlsx')
 
 @app.route('/aduccionCadera', methods=['POST'])
 def AduccionCadera():
-    data = request.json
-    distancia = data.get('dato')
+    distancia = request.form.get('dato')
     if distancia is None:
         return jsonify({'error': 'No se proporcionó una distancia'}), 400
     resultado = modelo_espalda.predecir(float(distancia))

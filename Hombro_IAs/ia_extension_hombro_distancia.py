@@ -38,8 +38,7 @@ modelo_espalda = IAExtensionHombro('Dataset.xlsx', 'Dataset.xlsx')
 
 @app.route('/extensionHombro', methods=['POST'])
 def ExtensionHombro():
-    data = request.json
-    distancia = data.get('dato')
+    angulo = request.form.get('dato')
     if distancia is None:
         return jsonify({'error': 'No se proporcionó una distancia'}), 400
     resultado = modelo_espalda.predecir(float(distancia))

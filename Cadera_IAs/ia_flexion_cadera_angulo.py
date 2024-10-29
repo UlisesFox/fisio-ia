@@ -38,8 +38,7 @@ modelo_espalda = IAFlexionCadera('Dataset.xlsx', 'Dataset.xlsx')
 
 @app.route('/flexionCadera', methods=['POST'])
 def FlexionCadera():
-    data = request.json
-    angulo = data.get('dato')
+    angulo = request.form.get('dato')
     if angulo is None:
         return jsonify({'error': 'No se proporcionó el ángulo'}), 400
     resultado = modelo_espalda.predecir(float(angulo))

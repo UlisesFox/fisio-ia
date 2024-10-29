@@ -38,8 +38,7 @@ modelo_espalda = IAFlexionRodilla('Dataset.xlsx', 'Dataset.xlsx')
 
 @app.route('/flexionRodilla', methods=['POST'])
 def FlexionRodilla():
-    data = request.json
-    angulo = data.get('dato')
+    angulo = request.form.get('dato')
     if angulo is None:
         return jsonify({'error': 'No se proporcionó el ángulo'}), 400
     resultado = modelo_espalda.predecir(float(angulo))
