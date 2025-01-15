@@ -7,14 +7,15 @@ from Rodilla_Calculador.flexion_rodilla_angulo_derecha import procesar_video_fle
 from Rodilla_Calculador.flexion_rodilla_angulo_izquierda import procesar_video_flexion_rodilla_angulo_izquierda
 from Cadera_Calculador.aduccion_cadera_distancia_derecha import procesar_video_aduccion_cadera_distancia_derecha
 from Cadera_Calculador.aduccion_cadera_distancia_izquierda import procesar_video_aduccion_cadera_distancia_izquierda
-from Cadera_Calculador.aduccion_flexion_cadera_angulo import procesar_video_aduccion_flexion_cadera_angulo
+from Cadera_Calculador.abduccion_flexion_cadera_angulo import procesar_video_flexion_cadera_angulo
+from Cadera_Calculador.abduccion_flexion_cadera_angulo import procesar_video_abduccion_cadera_angulo
 from Cadera_Calculador.extension_cadera_distancia import procesar_video_extension_cadera_distancia
 from Codo_Calculador.extension_codo_angulo_derecha import procesar_video_extension_codo_angulo_derecha
 from Codo_Calculador.extension_codo_angulo_izquierda import procesar_video_extension_codo_angulo_izquierda
 from Codo_Calculador.flexion_codo_angulo_derecha import procesar_video_flexion_codo_angulo_derecha
 from Codo_Calculador.flexion_codo_angulo_izquierda import procesar_video_flexion_codo_angulo_izquierda
-from Hombro_Calculador.aduccion_hombro_angulo_derecha import procesar_video_aduccion_hombro_angulo_derecha
-from Hombro_Calculador.aduccion_hombro_angulo_izquierda import procesar_video_aduccion_hombro_angulo_izquierda
+from Hombro_Calculador.abduccion_hombro_angulo_derecha import procesar_video_abduccion_hombro_angulo_derecha
+from Hombro_Calculador.abduccion_hombro_angulo_izquierda import procesar_video_abduccion_hombro_angulo_izquierda
 from Hombro_Calculador.aduccion_hombro_distancia_derecha import procesar_video_aduccion_hombro_distancia_derecha
 from Hombro_Calculador.aduccion_hombro_distancia_izquierda import procesar_video_aduccion_hombro_distancia_izquierda
 from Hombro_Calculador.extension_hombro_distancia_derecha import procesar_video_extension_hombro_distancia_derecha
@@ -125,7 +126,7 @@ def AbduccionCadera():
     if error:
         return jsonify({"error": error}), status_code
     
-    resultado = procesar_video_aduccion_flexion_cadera_angulo(video)
+    resultado = procesar_video_flexion_cadera_angulo(video)
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
     
@@ -161,7 +162,7 @@ def FlexionCadera():
     if error:
         return jsonify({"error": error}), status_code
     
-    resultado = procesar_video_aduccion_flexion_cadera_angulo(video)
+    resultado = procesar_video_abduccion_cadera_angulo(video)
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
     
@@ -233,7 +234,7 @@ def AbduccionHombroDerecha():
     if error:
         return jsonify({"error": error}), status_code
     
-    resultado = procesar_video_aduccion_hombro_angulo_derecha(video)
+    resultado = procesar_video_abduccion_hombro_angulo_derecha(video)
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
     
@@ -245,7 +246,7 @@ def AbduccionHombroIzquierda():
     if error:
         return jsonify({"error": error}), status_code
     
-    resultado = procesar_video_aduccion_hombro_angulo_izquierda(video)
+    resultado = procesar_video_abduccion_hombro_angulo_izquierda(video)
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
     

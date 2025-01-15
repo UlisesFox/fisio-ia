@@ -8,14 +8,18 @@ from io import BytesIO
 mp_pose = mp.solutions.pose
 
 def calcular_angulo(hip, elbow, shoulder):
-    vector1 = (hip.x - shoulder.x, hip.y - shoulder.y)
-    vector2 = (elbow.x - shoulder.x, elbow.y - shoulder.y)
-    dot_product = vector1[0] * vector2[0] + vector1[1] * vector2[1]
-    magnitude1 = math.sqrt(vector1[0]**2 + vector1[1]**2)
-    magnitude2 = math.sqrt(vector2[0]**2 + vector2[1]**2)
-    return math.degrees(math.acos(dot_product / (magnitude1 * magnitude2)))
+    x1, y1 = hip.x, hip.y
+    x2, y2 = elbow.x, elbow.y
+    x3, y3 = shoulder.x, shoulder.y
 
-def procesar_video_aduccion_hombro_angulo_izquierda(video_data):
+    theta = math.acos(
+        ((y2 - y1) * (y3 - y2)) /
+        (math.sqrt((x2 - x1)**2 + (y2 - y1)**2) * math.sqrt((x3 - x2)**2 + (y3 - y2)**2))
+    )
+    degree = math.degrees(theta)
+    return degree
+
+def procesar_video_abduccion_hombro_angulo_izquierda(video_data):
     video_bytes = BytesIO(video_data)
     container = av.open(video_bytes)
 

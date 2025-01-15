@@ -8,12 +8,16 @@ from io import BytesIO
 mp_pose = mp.solutions.pose
 
 def calcular_angulo(shoulder, elbow, wrist):
-    vector1 = (shoulder.x - elbow.x, shoulder.y - elbow.y)
-    vector2 = (wrist.x - elbow.x, wrist.y - elbow.y)
-    dot_product = vector1[0] * vector2[0] + vector1[1] * vector2[1]
-    magnitude1 = math.sqrt(vector1[0]**2 + vector1[1]**2)
-    magnitude2 = math.sqrt(vector2[0]**2 + vector2[1]**2)
-    return math.degrees(math.acos(dot_product / (magnitude1 * magnitude2)))
+    x1, y1 = shoulder.x, shoulder.y
+    x2, y2 = elbow.x, elbow.y
+    x3, y3 = wrist.x, wrist.y
+
+    theta = math.acos(
+        ((y2 - y1) * (y3 - y2)) /
+        (math.sqrt((x2 - x1)**2 + (y2 - y1)**2) * math.sqrt((x3 - x2)**2 + (y3 - y2)**2))
+    )
+    degree = math.degrees(theta)
+    return degree
 
 def procesar_video_flexion_codo_angulo_derecha(video_data):
     video_bytes = BytesIO(video_data)
