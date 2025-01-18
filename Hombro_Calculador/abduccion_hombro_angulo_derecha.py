@@ -43,7 +43,7 @@ def procesar_video_abduccion_hombro_angulo_derecha(video_data):
                 if 0 <= angle <= 180:
                     angles.append(angle)
 
-        if angles:
-            return {"response": round(max(angles))}
+    if angles:
+        return {"response": round(max(angles))}
 
-        return {}
+    return {}

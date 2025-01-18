@@ -44,6 +44,6 @@ def procesar_video_extension_codo_angulo_derecha(video_data):
                     angles.append(angle)
 
     if angles:
-        return {"response" : round(max(angles))}
+        return {"response": round(max(angles))}
 
     return {}

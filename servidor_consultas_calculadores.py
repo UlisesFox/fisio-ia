@@ -5,23 +5,26 @@ from Rodilla_Calculador.extension_rodilla_angulo_derecha import procesar_video_e
 from Rodilla_Calculador.extension_rodilla_angulo_izquierda import procesar_video_extension_rodilla_angulo_izquierda
 from Rodilla_Calculador.flexion_rodilla_angulo_derecha import procesar_video_flexion_rodilla_angulo_derecha
 from Rodilla_Calculador.flexion_rodilla_angulo_izquierda import procesar_video_flexion_rodilla_angulo_izquierda
+from Cadera_Calculador.abduccion_cadera_angulo_derecha import procesar_video_abduccion_cadera_angulo_derecha
+from Cadera_Calculador.abduccion_cadera_angulo_izquierda import procesar_video_abduccion_cadera_angulo_izquierda
 from Cadera_Calculador.aduccion_cadera_distancia_derecha import procesar_video_aduccion_cadera_distancia_derecha
 from Cadera_Calculador.aduccion_cadera_distancia_izquierda import procesar_video_aduccion_cadera_distancia_izquierda
-from Cadera_Calculador.abduccion_flexion_cadera_angulo import procesar_video_flexion_cadera_angulo
-from Cadera_Calculador.abduccion_flexion_cadera_angulo import procesar_video_abduccion_cadera_angulo
-from Cadera_Calculador.extension_cadera_distancia import procesar_video_extension_cadera_distancia
+from Cadera_Calculador.extension_cadera_angulo_derecha import procesar_video_extension_cadera_angulo_derecha
+from Cadera_Calculador.extension_cadera_angulo_izquierda import procesar_video_extension_cadera_angulo_izquierda
+from Cadera_Calculador.flexion_cadera_angulo_derecha import procesar_video_flexion_cadera_angulo_derecha
+from Cadera_Calculador.flexion_cadera_angulo_izquierda import procesar_video_flexion_cadera_angulo_izquerda
 from Codo_Calculador.extension_codo_angulo_derecha import procesar_video_extension_codo_angulo_derecha
 from Codo_Calculador.extension_codo_angulo_izquierda import procesar_video_extension_codo_angulo_izquierda
 from Codo_Calculador.flexion_codo_angulo_derecha import procesar_video_flexion_codo_angulo_derecha
 from Codo_Calculador.flexion_codo_angulo_izquierda import procesar_video_flexion_codo_angulo_izquierda
 from Hombro_Calculador.abduccion_hombro_angulo_derecha import procesar_video_abduccion_hombro_angulo_derecha
 from Hombro_Calculador.abduccion_hombro_angulo_izquierda import procesar_video_abduccion_hombro_angulo_izquierda
-from Hombro_Calculador.aduccion_hombro_distancia_derecha import procesar_video_aduccion_hombro_distancia_derecha
-from Hombro_Calculador.aduccion_hombro_distancia_izquierda import procesar_video_aduccion_hombro_distancia_izquierda
-from Hombro_Calculador.extension_hombro_distancia_derecha import procesar_video_extension_hombro_distancia_derecha
-from Hombro_Calculador.extension_hombro_distancia_izquierda import procesar_video_extension_hombro_distancia_izquierda
-from Hombro_Calculador.flexion_hombro_distancia_derecha import procesar_video_flexion_hombro_distancia_derecha
-from Hombro_Calculador.flexion_hombro_distancia_izquierda import procesar_video_flexion_hombro_distancia_izquierda
+from Hombro_Calculador.aduccion_hombro_angulo_derecha import procesar_video_aduccion_hombro_angulo_derecha
+from Hombro_Calculador.aduccion_hombro_angulo_izquierda import procesar_video_aduccion_hombro_angulo_izquierda
+from Hombro_Calculador.extension_hombro_angulo_derecha import procesar_video_extension_hombro_angulo_derecha
+from Hombro_Calculador.extension_hombro_angulo_izquierda import procesar_video_extension_hombro_angulo_izquierda
+from Hombro_Calculador.flexion_hombro_angulo_derecha import procesar_video_flexion_hombro_angulo_derecha
+from Hombro_Calculador.flexion_hombro_angulo_izquierda import procesar_video_flexion_hombro_angulo_izquierda
 
 app = Flask(__name__)
 
@@ -120,13 +123,25 @@ def FlexionRodillaIzquierda():
     
     return jsonify(resultado), 200
 
-@app.route('/abduccionCadera', methods=['POST'])
-def AbduccionCadera():
+@app.route('/abduccionCaderaDerecha', methods=['POST'])
+def AbduccionCaderaDerecha():
     video, error, status_code = procesar_video(request)
     if error:
         return jsonify({"error": error}), status_code
     
-    resultado = procesar_video_flexion_cadera_angulo(video)
+    resultado = procesar_video_abduccion_cadera_angulo_derecha(video)
+    if resultado is None:
+        return jsonify({"error": "No se detectó el movimiento"}), 400
+    
+    return jsonify(resultado), 200
+
+@app.route('/abduccionCaderaIzquierda', methods=['POST'])
+def AbduccionCaderaIzquierda():
+    video, error, status_code = procesar_video(request)
+    if error:
+        return jsonify({"error": error}), status_code
+    
+    resultado = procesar_video_abduccion_cadera_angulo_izquierda(video)
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
     
@@ -156,25 +171,49 @@ def AduccionCaderaIzquierda():
     
     return jsonify(resultado), 200
 
-@app.route('/flexionCadera', methods=['POST'])
-def FlexionCadera():
+@app.route('/extensionCaderaDerecha', methods=['POST'])
+def ExtensionCaderaDerecha():
     video, error, status_code = procesar_video(request)
     if error:
         return jsonify({"error": error}), status_code
     
-    resultado = procesar_video_abduccion_cadera_angulo(video)
+    resultado = procesar_video_extension_cadera_angulo_derecha(video)
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
     
     return jsonify(resultado), 200
 
-@app.route('/extensionCadera', methods=['POST'])
-def ExtensionCadera():
+@app.route('/extensionCaderaIzquierda', methods=['POST'])
+def ExtensionCaderaIzquierda():
     video, error, status_code = procesar_video(request)
     if error:
         return jsonify({"error": error}), status_code
     
-    resultado = procesar_video_extension_cadera_distancia(video)
+    resultado = procesar_video_extension_cadera_angulo_izquierda(video)
+    if resultado is None:
+        return jsonify({"error": "No se detectó el movimiento"}), 400
+    
+    return jsonify(resultado), 200
+
+@app.route('/flexionCaderaDerecha', methods=['POST'])
+def FlexionCaderaDerecha():
+    video, error, status_code = procesar_video(request)
+    if error:
+        return jsonify({"error": error}), status_code
+    
+    resultado = procesar_video_flexion_cadera_angulo_derecha(video)
+    if resultado is None:
+        return jsonify({"error": "No se detectó el movimiento"}), 400
+    
+    return jsonify(resultado), 200
+
+@app.route('/flexionCaderaIzquierda', methods=['POST'])
+def FlexionCaderaIzquierda():
+    video, error, status_code = procesar_video(request)
+    if error:
+        return jsonify({"error": error}), status_code
+    
+    resultado = procesar_video_flexion_cadera_angulo_izquerda(video)
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
     
@@ -258,7 +297,7 @@ def AduccionHombroDerecha():
     if error:
         return jsonify({"error": error}), status_code
     
-    resultado = procesar_video_aduccion_hombro_distancia_derecha(video)
+    resultado = procesar_video_aduccion_hombro_angulo_derecha(video)
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
     
@@ -270,7 +309,7 @@ def AduccionHombroIzquierda():
     if error:
         return jsonify({"error": error}), status_code
     
-    resultado = procesar_video_aduccion_hombro_distancia_izquierda(video)
+    resultado = procesar_video_aduccion_hombro_angulo_izquierda(video)
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
     
@@ -282,7 +321,7 @@ def ExtensionHombroDerecha():
     if error:
         return jsonify({"error": error}), status_code
     
-    resultado = procesar_video_extension_hombro_distancia_derecha(video)
+    resultado = procesar_video_extension_hombro_angulo_derecha(video)
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
     
@@ -294,7 +333,7 @@ def ExtensionHombroIzquierda():
     if error:
         return jsonify({"error": error}), status_code
     
-    resultado = procesar_video_extension_hombro_distancia_izquierda(video)
+    resultado = procesar_video_extension_hombro_angulo_izquierda(video)
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
     
@@ -306,7 +345,7 @@ def FlexionHombroDerecha():
     if error:
         return jsonify({"error": error}), status_code
     
-    resultado = procesar_video_flexion_hombro_distancia_derecha(video)
+    resultado = procesar_video_flexion_hombro_angulo_derecha(video)
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
     
@@ -318,7 +357,7 @@ def FlexionHombroIzquierda():
     if error:
         return jsonify({"error": error}), status_code
     
-    resultado = procesar_video_flexion_hombro_distancia_izquierda(video)
+    resultado = procesar_video_flexion_hombro_angulo_izquierda(video)
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
     

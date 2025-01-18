@@ -40,7 +40,7 @@ def procesar_video_extension_rodilla_angulo_izquierda(video_data):
                 ankle = landmarks[mp_pose.PoseLandmark.LEFT_ANKLE]
                 angle = calcular_angulo(hip, knee, ankle)
 
-                if 0 <= angle <= 200:
+                if 0 <= angle <= 180:
                     angles.append(angle)
 
     if angles:

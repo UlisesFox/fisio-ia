@@ -8,10 +8,10 @@ from io import BytesIO
 # Inicializa los modelos específicos
 mp_pose = mp.solutions.pose
 
-def calcular_angulo(hip, knee, ankle):
-    x1, y1 = hip.x, hip.y
-    x2, y2 = knee.x, knee.y
-    x3, y3 = ankle.x, ankle.y
+def calcular_angulo(ankle_right, hip, ankle_left):
+    x1, y1 = ankle_right.x, ankle_right.y
+    x2, y2 = hip.x, hip.y
+    x3, y3 = ankle_left.x, ankle_left.y
 
     theta = math.acos(
         ((y2 - y1) * (y3 - y2)) /
@@ -20,7 +20,7 @@ def calcular_angulo(hip, knee, ankle):
     degree = math.degrees(theta)
     return degree
 
-def procesar_video_extension_rodilla_angulo_derecha(video_data):
+def procesar_video_extension_cadera_angulo_izquierda(video_data):
     video_bytes = BytesIO(video_data)
     container = av.open(video_bytes)
 
@@ -36,12 +36,12 @@ def procesar_video_extension_rodilla_angulo_derecha(video_data):
 
             if results.pose_landmarks:
                 landmarks = results.pose_landmarks.landmark
-                hip = landmarks[mp_pose.PoseLandmark.RIGHT_HIP]
-                knee = landmarks[mp_pose.PoseLandmark.RIGHT_KNEE]
-                ankle = landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE]
-                angle = calcular_angulo(hip, knee, ankle)
+                ankle_right = landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE]
+                hip = landmarks[mp_pose.PoseLandmark.RIGHT_KNEE]
+                ankle_left = landmarks[mp_pose.PoseLandmark.LEFT_ANKLE]
+                angle = calcular_angulo(ankle_right, hip, ankle_left)
 
-                if 0 <= angle <= 180:
+                if 0 <= angle <= 50:
                     angles.append(angle)
 
     if angles:

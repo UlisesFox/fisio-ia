@@ -1,20 +1,29 @@
 import av
 import cv2
+import math
 import numpy as np
 import mediapipe as mp
 from io import BytesIO
 
 mp_pose = mp.solutions.pose
 
-def calcular_distancia(shoulder, wrist):
-    distance = abs(wrist.x - shoulder.x)
-    return distance
+def calcular_angulo(hip, shoulder, wrist):
+    x1, y1 = hip.x, hip.y
+    x2, y2 = shoulder.x, shoulder.y
+    x3, y3 = wrist.x, wrist.y
 
-def procesar_video_extension_hombro_distancia_izquierda(video_data):
+    theta = math.acos(
+        ((y2 - y1) * (y3 - y2)) /
+        (math.sqrt((x2 - x1)**2 + (y2 - y1)**2) * math.sqrt((x3 - x2)**2 + (y3 - y2)**2))
+    )
+    degree = math.degrees(theta)
+    return degree
+
+def procesar_video_aduccion_hombro_angulo_izquierda(video_data):
     video_bytes = BytesIO(video_data)
     container = av.open(video_bytes)
 
-    distances = []
+    angles = []
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
         for frame in container.decode(video=0):
@@ -26,16 +35,15 @@ def procesar_video_extension_hombro_distancia_izquierda(video_data):
 
             if results.pose_landmarks:
                 landmarks = results.pose_landmarks.landmark
+                hip = landmarks[mp_pose.PoseLandmark.LEFT_HIP]
                 shoulder = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER]
                 wrist = landmarks[mp_pose.PoseLandmark.LEFT_WRIST]
-                distance = calcular_distancia(shoulder, wrist)
+                angle = calcular_angulo(hip, shoulder, wrist)
 
-                distances.append(distance)
+                if 0 <= angle <= 90:
+                    angles.append(angle)
 
-    if distances:
-        max_distance = max(distances)
-        redondeador = max_distance/0.01
-        ajustador = round(redondeador)
-        return {"response": ajustador}
+    if angles:
+        return {"response": round(max(angles))}
 
     return {}

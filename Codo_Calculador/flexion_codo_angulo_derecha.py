@@ -40,7 +40,7 @@ def procesar_video_flexion_codo_angulo_derecha(video_data):
                 wrist = landmarks[mp_pose.PoseLandmark.RIGHT_WRIST]
                 angle = calcular_angulo(shoulder, elbow, wrist)
 
-                if 0 <= angle <= 180:
+                if 0 <= angle <= 90:
                     angles.append(angle)
 
     if angles:
