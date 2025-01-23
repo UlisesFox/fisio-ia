@@ -24,6 +24,8 @@ def procesar_video_extension_hombro_angulo_izquierda(video_data):
     container = av.open(video_bytes)
 
     angles = []
+    tipo = "angulo"
+    desde = "hombro"
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
         for frame in container.decode(video=0):
@@ -38,12 +40,13 @@ def procesar_video_extension_hombro_angulo_izquierda(video_data):
                 hip = landmarks[mp_pose.PoseLandmark.LEFT_HIP]
                 shoulder = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER]
                 wrist = landmarks[mp_pose.PoseLandmark.LEFT_WRIST]
-                angle = calcular_angulo(hip, shoulder, wrist)
+                dato = calcular_angulo(hip, shoulder, wrist)
 
-                if 0 <= angle <= 50:
+                angle= dato-40
+                if 0 <= angle <= 180:
                     angles.append(angle)
 
     if angles:
-        return {"response": round(max(angles))}
+        return {"response": round(max(angles)), "tipo": tipo, "desde": desde}
 
     return {}

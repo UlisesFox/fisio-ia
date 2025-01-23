@@ -24,6 +24,8 @@ def procesar_video_extension_codo_angulo_derecha(video_data):
     container = av.open(video_bytes)
 
     angles = []
+    tipo = "angulo"
+    desde = "codo"
     
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
         for frame in container.decode(video=0):
@@ -38,12 +40,13 @@ def procesar_video_extension_codo_angulo_derecha(video_data):
                 shoulder = landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER]
                 elbow = landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW]
                 wrist = landmarks[mp_pose.PoseLandmark.RIGHT_WRIST]
-                angle = calcular_angulo(shoulder, elbow, wrist)
-                    
+                dato = calcular_angulo(shoulder, elbow, wrist)
+                
+                angle = dato+75
                 if 0 <= angle <= 180:
                     angles.append(angle)
 
     if angles:
-        return {"response": round(max(angles))}
+        return {"response": round(max(angles)), "tipo": tipo, "desde": desde}
 
     return {}

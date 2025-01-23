@@ -24,6 +24,8 @@ def procesar_video_flexion_rodilla_angulo_izquierda(video_data):
     container = av.open(video_bytes)
 
     angles = []
+    tipo = "angulo"
+    desde = "rodilla"
     
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
         for frame in container.decode(video=0):
@@ -44,9 +46,6 @@ def procesar_video_flexion_rodilla_angulo_izquierda(video_data):
                     angles.append(angle)
 
     if angles:
-        return {"response": round(min(angles))}
+        return {"response": round(max(angles)), "tipo": tipo, "desde": desde}
 
     return {}
-
--90
-55/90

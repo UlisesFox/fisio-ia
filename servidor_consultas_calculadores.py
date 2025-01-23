@@ -12,7 +12,7 @@ from Cadera_Calculador.aduccion_cadera_distancia_izquierda import procesar_video
 from Cadera_Calculador.extension_cadera_angulo_derecha import procesar_video_extension_cadera_angulo_derecha
 from Cadera_Calculador.extension_cadera_angulo_izquierda import procesar_video_extension_cadera_angulo_izquierda
 from Cadera_Calculador.flexion_cadera_angulo_derecha import procesar_video_flexion_cadera_angulo_derecha
-from Cadera_Calculador.flexion_cadera_angulo_izquierda import procesar_video_flexion_cadera_angulo_izquerda
+from Cadera_Calculador.flexion_cadera_angulo_izquierda import procesar_video_flexion_cadera_angulo_izquierda
 from Codo_Calculador.extension_codo_angulo_derecha import procesar_video_extension_codo_angulo_derecha
 from Codo_Calculador.extension_codo_angulo_izquierda import procesar_video_extension_codo_angulo_izquierda
 from Codo_Calculador.flexion_codo_angulo_derecha import procesar_video_flexion_codo_angulo_derecha
@@ -52,18 +52,22 @@ def procesar_video(request):
 # Procesamiento de imágenes
 @app.route('/curvaturaEspalda', methods=['POST'])
 def CurvaturaEspalda():
+    tipo = "angulo"
+    desde = "hombros"
     imagen, error, status_code = procesar_imagen(request)
     if error:
         return jsonify({"error": error}), status_code
-    
+
     resultado = curvatura_espalda_calculador.procesar_imagen(imagen)
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
 
-    return jsonify({'response': resultado}), 200
+    return jsonify({'response': resultado, 'tipo': tipo, 'desde': desde}), 200
 
 @app.route('/curvaturaPiernas', methods=['POST'])
 def CurvaturaPiernas():
+    tipo = "angulo"
+    desde = "rodillas"
     imagen, error, status_code = procesar_imagen(request)
     if error:
         return jsonify({"error": error}), status_code
@@ -72,7 +76,7 @@ def CurvaturaPiernas():
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
 
-    return jsonify({'response': resultado}), 200
+    return jsonify({'response': resultado, 'tipo': tipo, 'desde': desde}), 200
 
 # Procesamiento de videos
 @app.route('/extensionRodillaDerecha', methods=['POST'])
@@ -213,7 +217,7 @@ def FlexionCaderaIzquierda():
     if error:
         return jsonify({"error": error}), status_code
     
-    resultado = procesar_video_flexion_cadera_angulo_izquerda(video)
+    resultado = procesar_video_flexion_cadera_angulo_izquierda(video)
     if resultado is None:
         return jsonify({"error": "No se detectó el movimiento"}), 400
     

@@ -15,6 +15,8 @@ def procesar_video_aduccion_cadera_distancia_derecha(video_data):
     container = av.open(video_bytes)
 
     distances = []
+    tipo = "distancia"
+    desde = "cadera"
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
         for frame in container.decode(video=0):
@@ -36,6 +38,6 @@ def procesar_video_aduccion_cadera_distancia_derecha(video_data):
         max_distance = max(distances)
         redondeador = max_distance/0.01
         ajustador = round(redondeador)
-        return {"response": ajustador}
+        return {"response": ajustador, "tipo": tipo, "desde": desde}
 
     return {}

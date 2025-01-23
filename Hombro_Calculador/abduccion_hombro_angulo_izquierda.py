@@ -7,10 +7,10 @@ from io import BytesIO
 
 mp_pose = mp.solutions.pose
 
-def calcular_angulo(hip, elbow, shoulder):
+def calcular_angulo(hip, shoulder, wrist):
     x1, y1 = hip.x, hip.y
-    x2, y2 = elbow.x, elbow.y
-    x3, y3 = shoulder.x, shoulder.y
+    x2, y2 = shoulder.x, shoulder.y
+    x3, y3 = wrist.x, wrist.y
 
     theta = math.acos(
         ((y2 - y1) * (y3 - y2)) /
@@ -24,6 +24,8 @@ def procesar_video_abduccion_hombro_angulo_izquierda(video_data):
     container = av.open(video_bytes)
 
     angles = []
+    tipo = "angulo"
+    desde = "hombro"
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
         for frame in container.decode(video=0):
@@ -35,15 +37,16 @@ def procesar_video_abduccion_hombro_angulo_izquierda(video_data):
 
             if results.pose_landmarks:
                 landmarks = results.pose_landmarks.landmark
-                hip = landmarks[mp_pose.PoseLandmark.LEFT_HIP]
-                elbow = landmarks[mp_pose.PoseLandmark.LEFT_ELBOW]
-                shoulder = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER]
-                angle = calcular_angulo(hip, elbow, shoulder)
+                hip = landmarks[mp_pose.PoseLandmark.RIGHT_HIP]
+                shoulder = landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER]
+                wrist = landmarks[mp_pose.PoseLandmark.RIGHT_WRIST]
+                dato = calcular_angulo(hip, shoulder, wrist)
 
+                angle= dato+90
                 if 0 <= angle <= 180:
                     angles.append(angle)
 
     if angles:
-        return {"response": round(max(angles))}
+        return {"response": round(max(angles)), "tipo": tipo, "desde": desde}
 
     return {}

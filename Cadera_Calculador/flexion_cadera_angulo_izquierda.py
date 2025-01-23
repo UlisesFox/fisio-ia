@@ -20,11 +20,13 @@ def calcular_angulo(ankle_right, hip, ankle_left):
     degree = math.degrees(theta)
     return degree
 
-def procesar_video_flexion_cadera_angulo_izquerda(video_data):
+def procesar_video_flexion_cadera_angulo_izquierda(video_data):
     video_bytes = BytesIO(video_data)
     container = av.open(video_bytes)
 
     angles = []
+    tipo = "angulo"
+    desde = "cadera"
     
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
         for frame in container.decode(video=0):
@@ -37,14 +39,15 @@ def procesar_video_flexion_cadera_angulo_izquerda(video_data):
             if results.pose_landmarks:
                 landmarks = results.pose_landmarks.landmark
                 ankle_right = landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE]
-                hip = landmarks[mp_pose.PoseLandmark.RIGHT_KNEE]
+                hip = landmarks[mp_pose.PoseLandmark.RIGHT_HIP]
                 ankle_left = landmarks[mp_pose.PoseLandmark.LEFT_ANKLE]
-                angle = calcular_angulo(ankle_right, hip, ankle_left)
+                dato = calcular_angulo(ankle_right, hip, ankle_left)
 
-                if 0 <= angle <= 90:
+                angle = dato-30
+                if 0 <= angle <= 180:
                     angles.append(angle)
 
     if angles:
-        return {"response": round(max(angles))}
+        return {"response": round(max(angles)), "tipo": tipo, "desde": desde}
 
     return {}

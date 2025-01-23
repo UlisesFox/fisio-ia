@@ -25,6 +25,8 @@ def procesar_video_extension_rodilla_angulo_derecha(video_data):
     container = av.open(video_bytes)
 
     angles = []
+    tipo = "angulo"
+    desde = "rodilla"
     
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
         for frame in container.decode(video=0):
@@ -39,12 +41,13 @@ def procesar_video_extension_rodilla_angulo_derecha(video_data):
                 hip = landmarks[mp_pose.PoseLandmark.RIGHT_HIP]
                 knee = landmarks[mp_pose.PoseLandmark.RIGHT_KNEE]
                 ankle = landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE]
-                angle = calcular_angulo(hip, knee, ankle)
+                dato = calcular_angulo(hip, knee, ankle)
 
+                angle = dato+94
                 if 0 <= angle <= 180:
                     angles.append(angle)
 
     if angles:
-        return {"response": round(max(angles))}
+        return {"response": round(max(angles)), "tipo": tipo, "desde": desde}
 
     return {}

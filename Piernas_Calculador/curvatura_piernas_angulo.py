@@ -19,7 +19,7 @@ class curvatura_piernas:
         angulo_radianes = math.acos(producto_escalar / (magnitud_ba * magnitud_bc))
         angulo_grados = math.degrees(angulo_radianes)
 
-        return round(angulo_grados - 80 if angulo_grados >= 80 else angulo_grados + 281)
+        return round(angulo_grados)
 
     def procesar_imagen(self, image_buffer):
         image = cv2.imdecode(np.frombuffer(image_buffer, np.uint8), cv2.IMREAD_COLOR)
